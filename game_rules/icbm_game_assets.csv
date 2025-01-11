@@ -1,0 +1,6 @@
+Static Assets,,,,offensive assets,,,,,Defensive assets,,,,,Scouting Assets ,,,,
+Name ,visibility range,cost,,Name ,range,Speed,cost,,Name ,Range,Speed,Cost,,Name ,Range,Speed,Visibility Range,Cost
+Citadel,3x3,0,,ICBM,25,4,5,,Long Range Interceptor,25,4,8,,Recon Satellite,25,8,3x3,25
+launch site,0x0,5,,Cruise Missile,25,2,3,,Short Range Interceptor,8,3,4,,recon plane ,25,3,3x3,5
+,,,,Artillery,5,2,1,,Point Defense Interceptor,3,3,2,,Long range radar,0,0,5x5,20
+,,,,,,,,,,,,,,short range radar,0,0,3x3,10
