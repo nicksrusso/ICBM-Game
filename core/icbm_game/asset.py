@@ -4,18 +4,18 @@ from typing import Tuple, Optional, Dict
 
 
 class AssetType(Enum):
-    CITADEL = "Citadel"
-    LAUNCH_SITE = "LaunchSite"
+    CITADEL = "CITADEL"
+    LAUNCH_SITE = "LAUNCH_SITE"
     ICBM = "ICBM"
-    CRUISE_MISSILE = "CruiseMissile"
-    ARTILLERY = "Artillery"
-    LR_INTERCEPTOR = "LRInterceptor"
-    SR_INTERCEPTOR = "SRInterceptor"
-    POINT_DEFENSE = "PointDefense"
-    RECON_SAT = "ReconSat"
-    RECON_PLANE = "ReconPlane"
-    LR_RADAR = "LRRadar"
-    SR_RADAR = "SRRadar"
+    CRUISE_MISSILE = "CRUISE_MISSILE"
+    ARTILLERY = "ARTILLERY"
+    LONG_RANGE_INTERCEPTOR = "LONG_RANGE_INTERCEPTOR"
+    SHORT_RANGE_INTERCEPTOR = "SHORT_RANGE_INTERCEPTOR"
+    POINT_DEFENSE = "POINT_DEFENSE_INTERCEPTOR"
+    SATELLITE = "SATELLITE"
+    RECON_PLANE = "RECON_PLANE"
+    LONG_RANGE_RADAR = "LONG_RANGE_RADAR"
+    SHORT_RANGE_RADAR = "SHORT_RANGE_RADAR"
 
 
 @dataclass
@@ -78,5 +78,4 @@ def load_asset_definitions() -> Dict[AssetType, AssetDefinition]:
                 speed=int(row["Speed"]),
                 range=int(row["Range"]),
             )
-
     return assets

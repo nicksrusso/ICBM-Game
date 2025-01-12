@@ -2,7 +2,7 @@ import numpy as np
 from typing import List, Dict, Optional, Tuple
 
 import pyspiel
-from asset import AssetType, Asset, load_asset_definitions
+from icbm_game.asset import AssetType, Asset, load_asset_definitions
 from dataclasses import dataclass
 
 _NUM_PLAYERS = 2
@@ -17,7 +17,17 @@ class ICBMGame(pyspiel.Game):
 
     def __init__(self, params=None):
         """Initialize the game."""
-        super().__init__(_GAME_TYPE, params or {})
+
+        game_info = pyspiel.GameInfo(
+            num_distinct_actions=_NUM_ROWS * _NUM_COLS + 1,  # +1 for pass action
+            max_chance_outcomes=0,
+            num_players=_NUM_PLAYERS,
+            min_utility=-1.0,  # Loss
+            max_utility=1.0,  # Win
+            utility_sum=0.0,  # Zero-sum game
+            max_game_length=1000,
+        )
+        super().__init__(_GAME_TYPE, game_info, params or {})
 
     def new_initial_state(self):
         """Returns a new ICBMState."""
@@ -75,6 +85,11 @@ class ICBMState(pyspiel.State):
             return (slice(0, _NUM_ROWS), slice(0, _NUM_COLS // 2))
         return (slice(0, _NUM_ROWS), slice(_NUM_COLS // 2, _NUM_COLS))
 
+    # Add the new method here
+    def switch_player(self) -> None:
+        """Switch to the other player's turn."""
+        self._current_player = 1 - self._current_player  # Alternates between 0 and 1
+
     def can_purchase(self, player: int, asset_type: AssetType) -> bool:
         """Check if player can purchase the given asset"""
         asset_def = self.assets[asset_type]
@@ -118,6 +133,26 @@ class ICBMState(pyspiel.State):
                 return False
 
         return True
+
+    def apply_action(self, action_id: int) -> None:
+        """Apply specified action."""
+        if self.game_phase != "DEPLOYMENT":
+            return  # TODO: Implement game phase actions
+
+        # Decode action
+        if action_id < len(AssetType):  # Purchase action
+            # Convert index to AssetType
+            asset_type = list(AssetType)[action_id]
+            self.purchase_asset(self._current_player, asset_type)
+        else:  # Deploy action
+            action_id -= len(AssetType)
+            asset_idx = action_id // (_NUM_ROWS * (_NUM_COLS // 2))
+            pos_id = action_id % (_NUM_ROWS * (_NUM_COLS // 2))
+            row = pos_id // (_NUM_COLS // 2)
+            col = pos_id % (_NUM_COLS // 2)
+            if self._current_player == 1:
+                col += _NUM_COLS // 2
+            self.deploy_asset(self._current_player, asset_idx, (row, col))
 
     def deploy_asset(self, player: int, asset_idx: int, position: Tuple[int, int]) -> bool:
         """Attempt to deploy a purchased asset"""
@@ -167,30 +202,6 @@ class ICBMState(pyspiel.State):
                     action_id += 1
 
         return actions
-
-    def apply_action(self, action_id: int) -> None:
-        """Apply specified action."""
-        if self.game_phase != "DEPLOYMENT":
-            return  # TODO: Implement game phase actions
-
-        # Decode action
-        if action_id < len(AssetType):  # Purchase action
-            self.purchase_asset(self._current_player, AssetType(action_id))
-        else:  # Deploy action
-            action_id -= len(AssetType)
-            asset_idx = action_id // (_NUM_ROWS * (_NUM_COLS // 2))
-            pos_id = action_id % (_NUM_ROWS * (_NUM_COLS // 2))
-            row = pos_id // (_NUM_COLS // 2)
-            col = pos_id % (_NUM_COLS // 2)
-            if self._current_player == 1:
-                col += _NUM_COLS // 2
-            self.deploy_asset(self._current_player, asset_idx, (row, col))
-
-        # Check if deployment phase is complete
-        if self.is_deployment_done(self._current_player):
-            if self._current_player == 1:
-                self.game_phase = "GAME"
-            self._current_player = 1 - self._current_player
 
 
 # Define game type

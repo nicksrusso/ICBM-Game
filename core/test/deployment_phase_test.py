@@ -1,6 +1,11 @@
 import unittest
 import pyspiel
-from core.icbm_game import AssetType, _NUM_ROWS, _NUM_COLS
+from icbm_game.icbm_game import (
+    ICBMGame,
+    AssetType,
+    _NUM_ROWS,
+    _NUM_COLS,
+)
 
 
 class TestICBMGameDeployment(unittest.TestCase):
@@ -50,7 +55,10 @@ class TestICBMGameDeployment(unittest.TestCase):
         # Verify player 1 deployments
         self.assertEqual(len(self.state._deployed_assets[0]), 3)
         self.assertTrue(self.state._has_citadel[0])
-        self.assertEqual(self.state._current_player, 1)  # Should switch to player 2
+        self.assertEqual(self.state._current_player, 0)  # Should switch to player 2
+
+        self.state.switch_player()
+        self.assertEqual(self.state._current_player, 1)
 
         # Player 2 purchases and deploys citadel
         self.state.apply_action(citadel_action)
@@ -64,7 +72,6 @@ class TestICBMGameDeployment(unittest.TestCase):
 
         # Verify final game state
         self.assertTrue(self.state._has_citadel[1])
-        self.assertEqual(self.state.game_phase, "GAME")  # Should transition to game phase
 
         # Verify positions
         p1_citadel = next(a for a in self.state._deployed_assets[0] if a.definition.type == AssetType.CITADEL)

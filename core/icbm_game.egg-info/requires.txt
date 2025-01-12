@@ -1,0 +1,7 @@
+numpy
+open_spiel
+
+[dev]
+pytest
+black
+flake8
