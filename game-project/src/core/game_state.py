@@ -3,8 +3,9 @@ This file implements the core ICBM warfare game using Google's OpenSpiel framewo
 OpenSpiel is used to enable AI agents to learn and play the game through reinforcement learning.
 """
 
-from typing import List
 import pyspiel
+from typing import Dict, List, Tuple
+from .asset import Asset
 
 
 class ICBMGame(pyspiel.Game):
@@ -41,7 +42,7 @@ class ICBMState(pyspiel.State):
     def __init__(self, game):
         # Initialize the parent OpenSpiel State class
         super().__init__(game)
-        self.board = {}  # Dictionary to store game board and pieces
+        self.board: Dict[Tuple[int, int], List[Asset]] = {}  # Dictionary to store game board and pieces
         self.current_player = 0  # Track whose turn it is (0 or 1)
 
     def current_player(self) -> int:
