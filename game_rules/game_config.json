@@ -1,0 +1,51 @@
+{
+    "board_size": [
+        10,
+        20
+    ],
+    "players": [
+        {
+            "ID": "RED",
+            "TERRITORY": [
+                {
+                    "XCoords": [
+                        0,
+                        10,
+                        10,
+                        0
+                    ],
+                    "YCoords": [
+                        10,
+                        10,
+                        20,
+                        20
+                    ]
+                }
+            ],
+            "VICTORYPOINTS": 100,
+            "STARTINGCASH": 125
+        },
+        {
+            "ID": "BLUE",
+            "territory": [
+                {
+                    "XCoords": [
+                        0,
+                        10,
+                        10,
+                        0
+                    ],
+                    "YCoords": [
+                        0,
+                        0,
+                        10,
+                        10
+                    ]
+                }
+            ],
+            "VICTORYPOINTS": 100,
+            "STARTINGCASH": 125
+        }
+        
+    ]
+    }

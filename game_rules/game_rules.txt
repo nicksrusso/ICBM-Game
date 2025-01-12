@@ -1,5 +1,7 @@
 Game Rules		
-Overview	The game is played between a red player and a blue player 	
+Overview	
+	The game is a military strategy game, where players buy and deploy assets, then employ those assets with the goal of destroying the enemy citadel while defending their own
+	The game is played between a red player and a blue player 	
 	Each player will be allocated 125 points with which to purchase assets	
 	The game starts with a deployment phase, where purchased assets are deployed	
 		
