@@ -32,11 +32,27 @@ class AssetDefinition:
 class Asset:
     """Represents a placed asset on the board"""
 
+    """Represents a placed asset on the board"""
     definition: AssetDefinition
     player: int
     position: Optional[Tuple[int, int]] = None
-    is_active: bool = False  # For scouting assets
+    is_active: bool = False
     is_destroyed: bool = False
+    id: Optional[int] = None
+
+    def __hash__(self):
+        # If no ID assigned, hash based on memory location
+        if self.id is None:
+            return id(self)
+        return hash(self.id)
+
+    def __eq__(self, other):
+        if not isinstance(other, Asset):
+            return False
+        # If either asset has no ID, compare memory locations
+        if self.id is None or other.id is None:
+            return id(self) == id(other)
+        return self.id == other.id
 
     @property
     def is_revealed(self) -> bool:
