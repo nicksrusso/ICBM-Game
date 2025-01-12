@@ -2,6 +2,8 @@
 
 A turn-based strategy game implementing DeepMind's RNaD (Regularized Nash Dynamics) algorithm, featuring fog of war mechanics, resource management, and strategic deployment.
 
+See ./game_rules/game_rules.txt for detailed rules
+
 ## Project Goals
 
 1. **RNaD AI Implementation**
