@@ -54,9 +54,10 @@ class ICBMGameDriver:
         legal_actions = self.state._legal_actions(self.state._current_player)
 
         # Choose an action
-        action = self._get_player_action(legal_actions)
+        actions = self._get_player_action(legal_actions)
 
         # Apply action. Move asset, resolve combat, reveal any hostile assets.
+        self.state.execute_turn_movements(actions)
 
         # Switch to next player
         self.state.switch_player()
@@ -64,6 +65,33 @@ class ICBMGameDriver:
     def _reveal_visible_enemy_assets(self) -> None:
         """Reveal any enemy assets that are visible to each player"""
         if self.state.game_phase != "DEPLOYMENT":
+            # For each recorded movement
+            for policy_type, action_id in self._policies_this_turn:
+                # Get the asset that moved
+                asset_idx, new_pos = self.decode_movement(action_id)
+                moved_assets = [a for a in self._deployed_assets[self._current_player] if a.definition.is_mobile]
+                if asset_idx >= len(moved_assets):
+                    continue
+
+                moved_asset = moved_assets[asset_idx]
+                enemy_player = 1 - self._current_player
+
+                # Check if moved asset is now visible to any enemy static scouts
+                for enemy_asset in self._deployed_assets[enemy_player]:
+                    # Only check static scout assets (radars)
+                    if enemy_asset.definition.type not in (AssetType.LONG_RANGE_RADAR, AssetType.SHORT_RANGE_RADAR):
+                        continue
+
+                    # Get positions
+                    moved_x, moved_y = new_pos
+                    enemy_x, enemy_y = enemy_asset.position
+
+                    # Calculate manhattan distance
+                    distance = abs(enemy_x - moved_x) + abs(enemy_y - moved_y)
+
+                    # If we moved into radar range, we're visible
+                    if distance <= enemy_asset.definition.visibility_range:
+                        self._visible_assets[enemy_player].add(moved_asset)
             return
 
         # Start with player 0
@@ -111,7 +139,7 @@ class ICBMGameDriver:
 
         return True
 
-    def _get_player_action(self, legal_actions: List[int]) -> int:
+    def _get_player_action(self, legal_actions: List[int]) -> List[int]:
         """Temporary placeholder for getting player input"""
         # This would be replaced by actual UI/API integration
 
@@ -121,7 +149,7 @@ class ICBMGameDriver:
             else:
                 return legal_actions[random.randint(0, len(legal_actions) - 1)]
         else:
-            return legal_actions[0]  # Just take first legal action for now
+            return [legal_actions[0]]  # Just take first legal action for now
 
 
 def main():

@@ -264,36 +264,11 @@ class ICBMState(pyspiel.State):
     def _legal_actions(self, player: int) -> List[int]:
         """Returns a list of legal actions."""
         if self.game_phase != "DEPLOYMENT":
-            actions = []
-            # Get all mobile assets for this player
-            mobile_assets = [
-                asset for asset in self._deployed_assets[player] if asset.definition.is_mobile and not asset.is_destroyed
-            ]
+            return self._legal_movements(player)
+        else:
+            return self._legal_deployments(player)
 
-            # For each mobile asset, find all possible moves within its speed range
-            for asset_idx, asset in enumerate(mobile_assets):
-                if not asset.position:  # Skip if asset has no position
-                    continue
-
-                current_x, current_y = asset.position
-                speed = asset.definition.speed
-
-                # Check all positions within manhattan distance of speed
-                for dx in range(-speed, speed + 1):
-                    for dy in range(-speed - abs(dx), speed - abs(dx) + 1):
-                        new_x = current_x + dx
-                        new_y = current_y + dy
-
-                        # Check if position is on board
-                        if 0 <= new_x < _NUM_ROWS and 0 <= new_y < _NUM_COLS:
-                            # Convert to action ID:
-                            # action_id = asset_index * (total_board_positions) + position_index
-                            position_index = new_x * _NUM_COLS + new_y
-                            action_id = asset_idx * (_NUM_ROWS * _NUM_COLS) + position_index
-                            actions.append(action_id)
-
-            return actions
-
+    def _legal_deployments(self, player: int) -> List[int]:
         actions = []
         action_id = 0
         player_area = self.get_player_area(player)
@@ -329,7 +304,38 @@ class ICBMState(pyspiel.State):
 
         return actions
 
-    def decode_action(self, action_id: int) -> Tuple[int, Tuple[int, int]]:
+    def _legal_movements(self, player: int) -> List[int]:
+        actions = []
+        # Get all mobile assets for this player
+        mobile_assets = [
+            asset for asset in self._deployed_assets[player] if asset.definition.is_mobile and not asset.is_destroyed
+        ]
+
+        # For each mobile asset, find all possible moves within its speed range
+        for asset_idx, asset in enumerate(mobile_assets):
+            if not asset.position:  # Skip if asset has no position
+                continue
+
+            current_x, current_y = asset.position
+            speed = asset.definition.speed
+
+            # Check all positions within manhattan distance of speed
+            for dx in range(-speed, speed + 1):
+                for dy in range(-speed - abs(dx), speed - abs(dx) + 1):
+                    new_x = current_x + dx
+                    new_y = current_y + dy
+
+                    # Check if position is on board
+                    if 0 <= new_x < _NUM_ROWS and 0 <= new_y < _NUM_COLS:
+                        # Convert to action ID:
+                        # action_id = asset_index * (total_board_positions) + position_index
+                        position_index = new_x * _NUM_COLS + new_y
+                        action_id = asset_idx * (_NUM_ROWS * _NUM_COLS) + position_index
+                        actions.append(action_id)
+
+        return actions
+
+    def decode_movement(self, action_id: int) -> Tuple[int, Tuple[int, int]]:
         """Convert action_id back into asset_index and target position. Used for decoding actions in the game phase, not deployment phase"""
         total_positions = _NUM_ROWS * _NUM_COLS
         asset_idx = action_id // total_positions
@@ -338,23 +344,56 @@ class ICBMState(pyspiel.State):
         target_y = position_id % _NUM_COLS
         return asset_idx, (target_x, target_y)
 
-    # def apply_policies(self, policies: List[Policy]) -> None:
-    # """Queue up policies (moves) for the current turn"""
+    def execute_movement(self, action_id: int) -> bool:
+        """Execute a movement action for the current player
 
-    def execute_turn(self) -> None:
-        """Process through EXECUTION -> MOVEMENT -> COMBAT -> SCOUTING phases"""
+        Args:
+            action_id: The action ID encoding the asset and target position
 
-    def update_visibility(self) -> None:
-        """Update what assets each player can see based on scouting assets"""
+        Returns:
+            bool: True if movement was valid and executed, False otherwise
+        """
+        # Get the mobile assets for current player
+        mobile_assets = [
+            asset
+            for asset in self._deployed_assets[self._current_player]
+            if asset.definition.is_mobile and not asset.is_destroyed
+        ]
 
-    def resolve_combat(self) -> None:
-        """Handle combat between assets that end up on same tile"""
+        # Decode the action into asset index and target position
+        asset_idx, target_pos = self.decode_movement(action_id)
 
-    def calculate_victory_points(self) -> None:
-        """Update victory points based on turn actions and destroyed assets"""
+        # Validate asset index
+        if asset_idx >= len(mobile_assets):
+            return False
 
-    def get_visible_state(self, player: int) -> Dict:
-        """Return the game state as visible to the given player"""
+        asset = mobile_assets[asset_idx]
+
+        # Check if movement is valid
+        if not asset.can_move_to(target_pos):
+            return False
+
+        # Update asset position
+        asset.position = target_pos
+
+        # Remove from visible assets since it moved
+        for player in range(self._num_players):
+            if asset in self._visible_assets[player]:
+                self._visible_assets[player].remove(asset)
+
+        return True
+
+    def execute_turn_movements(self, actions: List[int]) -> None:
+        """Process all queued movement actions for the current turn. Should be combined with process_actions"""
+        if not hasattr(self, "_pending_movements"):
+            return
+
+        # Execute all pending movements
+        for action_id in actions:
+            if self.execute_movement(action_id):
+                self._policies_this_turn.append(("move", action_id))
+        # Clear pending movements after processing
+        self._pending_movements = []
 
 
 # Define game type
