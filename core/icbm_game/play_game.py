@@ -53,11 +53,19 @@ class ICBMGameDriver:
         # Build a list of all legal actions
         legal_actions = self.state._legal_actions(self.state._current_player)
 
+        if len(legal_actions) == 0:
+            # No legal moves available
+            self.state.switch_player()
+            return
+
         # Choose an action
         actions = self._get_player_action(legal_actions)
 
         # Apply action. Move asset, resolve combat, reveal any hostile assets.
         self.state.execute_turn_movements(actions)
+
+        # Deduct 5 victory points from current player for taking their turn
+        self.state._victory_points[self.state._current_player] -= 5
 
         # Switch to next player
         self.state.switch_player()
@@ -66,18 +74,18 @@ class ICBMGameDriver:
         """Reveal any enemy assets that are visible to each player"""
         if self.state.game_phase != "DEPLOYMENT":
             # For each recorded movement
-            for policy_type, action_id in self._policies_this_turn:
+            for policy_type, action_id in self.state._policies_this_turn:
                 # Get the asset that moved
-                asset_idx, new_pos = self.decode_movement(action_id)
-                moved_assets = [a for a in self._deployed_assets[self._current_player] if a.definition.is_mobile]
+                asset_idx, new_pos = self.state.decode_movement(action_id)
+                moved_assets = [a for a in self.state._deployed_assets[self.state._current_player] if a.definition.is_mobile]
                 if asset_idx >= len(moved_assets):
                     continue
 
                 moved_asset = moved_assets[asset_idx]
-                enemy_player = 1 - self._current_player
+                enemy_player = 1 - self.state._current_player
 
                 # Check if moved asset is now visible to any enemy static scouts
-                for enemy_asset in self._deployed_assets[enemy_player]:
+                for enemy_asset in self.state._deployed_assets[enemy_player]:
                     # Only check static scout assets (radars)
                     if enemy_asset.definition.type not in (AssetType.LONG_RANGE_RADAR, AssetType.SHORT_RANGE_RADAR):
                         continue
@@ -91,7 +99,7 @@ class ICBMGameDriver:
 
                     # If we moved into radar range, we're visible
                     if distance <= enemy_asset.definition.visibility_range:
-                        self._visible_assets[enemy_player].add(moved_asset)
+                        self.state._visible_assets[enemy_player].add(moved_asset)
             return
 
         # Start with player 0
@@ -167,7 +175,9 @@ def main():
     driver._reveal_visible_enemy_assets()
 
     # Run game until victory condition met
+    idx = 1
     while True:
+        print("Processing turn: ", idx)
         driver.run_execution_phase()
 
         # Check victory conditions
@@ -177,6 +187,7 @@ def main():
         elif driver.state._victory_points[1] <= 0:
             print("Player 1 wins!")
             break
+        idx = idx + 1
 
 
 if __name__ == "__main__":

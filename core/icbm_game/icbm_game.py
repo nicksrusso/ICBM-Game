@@ -377,7 +377,7 @@ class ICBMState(pyspiel.State):
         asset.position = target_pos
 
         # Remove from visible assets since it moved
-        for player in range(self._num_players):
+        for player in range(self._players_points):
             if asset in self._visible_assets[player]:
                 self._visible_assets[player].remove(asset)
 
