@@ -4,23 +4,6 @@ A turn-based strategy game implementing DeepMind's RNaD (Regularized Nash Dynami
 
 See ./game_rules/game_rules.txt for detailed rules
 
-## Project Goals
-
-1. **RNaD AI Implementation**
-   - Implement DeepMind's RNaD algorithm locally
-   - Train models using GPU acceleration
-   - Create AI opponent for strategic gameplay
-
-2. **GUI Development**
-   - Human-playable interface
-   - Visual representation of 10x20 game board
-   - Asset deployment and movement interface
-   - Game state visualization
-
-3. **API Development**
-   - Enable AI vs Human gameplay
-   - Game state management
-   - Move validation and execution
 
 ## Game Overview
 
