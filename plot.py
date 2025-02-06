@@ -73,18 +73,51 @@ def plot_asset(ax, asset):
 
 def plot_assets_grid(fig, ax, assets, plot_kinematics=False):
 
-    # Plot static, then dynamic so we don't plot every asset in a launch site
-    launch_site_locations = []
+    launch_site_positions = {}  # {position: team}
+    asset_positions = {}  # {position: team}
+    collisions = set()  # Positions where red/blue assets collide
+
+    # First pass - map positions
     for asset in assets:
+        pos = tuple(asset["position"])
+        if asset["type"] == "launch_site":
+            launch_site_positions[pos] = asset["team"]
+        else:
+            if pos in asset_positions and asset_positions[pos] != asset["team"]:
+                collisions.add(pos)
+            asset_positions[pos] = asset["team"]
+
+    # Plot static assets first
+    for asset in assets:
+        pos = tuple(asset["position"])
+        if pos in collisions:
+            continue
         if asset["speed"] == 0:
             ax = plot_asset(ax, asset)
-        if asset["type"] == "launch_site":
-            launch_site_locations.append(asset["position"])
+
+    # Plot moving assets
+    for asset in assets:
+        pos = tuple(asset["position"])
+        if pos in collisions:
+            # Plot explosion instead of assets
+            img_path = os.path.join("/home/nick/repos/personal/ICBM-Game/asset_images", "boom.png")
+            try:
+                img = mpimg.imread(str(img_path))
+                extent = [pos[0] - 0.4, pos[0] + 0.4, pos[1] - 0.5, pos[1] + 0.5]
+                ax.imshow(img, extent=extent, zorder=3)
+            except FileNotFoundError:
+                print("Warning: boom.png not found")
+                ax.plot(pos[0], pos[1], "rx", zorder=3)
+            continue
 
     for asset in assets:
-        if asset["speed"] > 0 and asset:
+        if asset["speed"] > 0:
+            pos = tuple(asset["position"])
+            # Skip anything which was intercepted
+            if pos in collisions:
+                continue
             # Skip anyting currently co-located with a launch site
-            if asset["position"] in launch_site_locations:
+            if pos in launch_site_positions and launch_site_positions[pos] == asset["team"]:
                 continue
 
             # Lines for reachable positions can make it cluttered, have this configurable
@@ -127,8 +160,15 @@ if __name__ == "__main__":
     assets = [
         {"type": "citadel", "team": "blue", "position": [0, 0], "visibility_range": 2, "speed": 0, "movement_range": 0},
         {"type": "icbm", "team": "blue", "position": [2, 2], "visibility_range": 0, "speed": 4, "movement_range": 4},
-        {"type": "icbm", "team": "blue", "position": [4, 2], "visibility_range": 0, "speed": 4, "movement_range": 6},
         {"type": "launch_site", "team": "blue", "position": [4, 2], "visibility_range": 2, "speed": 0, "movement_range": 0},
+        {
+            "type": "icbm",
+            "team": "blue",
+            "position": [4, 2],
+            "visibility_range": 0,
+            "speed": 4,
+            "movement_range": 6,
+        },  # ICBM co-located with launch site to test
         {
             "type": "long-range-interceptor",
             "team": "blue",
@@ -175,8 +215,25 @@ if __name__ == "__main__":
         },
         {"type": "cruise-missile", "team": "red", "position": [9, 12], "visibility_range": 0, "speed": 3, "movement_range": 8},
         {"type": "recon-plane", "team": "red", "position": [28, 4], "visibility_range": 0, "speed": 3, "movement_range": 8},
+        # Plot a collision to test
+        {
+            "type": "cruise-missile",
+            "team": "red",
+            "position": [12, 12],
+            "visibility_range": 0,
+            "speed": 3,
+            "movement_range": 0,
+        },
+        {
+            "type": "long-range-interceptor",
+            "team": "blue",
+            "position": [12, 12],
+            "visibility_range": 0,
+            "speed": 3,
+            "movement_range": 0,
+        },
     ]
 
-    fig, ax = plot_assets_grid(fig, ax, assets, plot_kinematics=False)
+    fig, ax = plot_assets_grid(fig, ax, assets, plot_kinematics=True)
 
     plt.show()

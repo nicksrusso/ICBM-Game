@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="500" height="500" viewBox="0 0 500 500" 
+     xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="500" height="500" fill="white" />
+
+  <!-- Central explosion star shape (no border) -->
+  <polygon 
+    points="250,120 290,180 350,250 290,320 250,380 210,320 150,250 210,180" 
+    fill="yellow"/>
+
+  <!-- Enlarged, asymmetrical radiating yellow triangles (no borders) -->
+  <!-- Triangle 1: angle ~10° -->
+  <polygon fill="yellow" stroke="none"
+    points="506,295 393,306 403,247"/>
+  
+  <!-- Triangle 2: angle ~50° -->
+  <polygon fill="yellow" stroke="none"
+    points="411,442 317,376 363,338"/>
+  
+  <!-- Triangle 3: angle ~110° -->
+  <polygon fill="yellow" stroke="none"
+    points="163,490 172,376 229,397"/>
+  
+  <!-- Triangle 4: angle ~170° -->
+  <polygon fill="yellow" stroke="none"
+    points="9,293 113,244 123,303"/>
+  
+  <!-- Triangle 5: angle ~230° -->
+  <polygon fill="yellow" stroke="none"
+    points="83,51 177,116 131,154"/>
+  
+  <!-- Triangle 6: angle ~280° -->
+  <polygon fill="yellow" stroke="none"
+    points="293,4 304,117 245,107"/>
+  
+  <!-- Triangle 7: angle ~335° -->
+  <polygon fill="yellow" stroke="none"
+    points="459,104 386,192 352,142"/>
+  
+  <!-- Triangle 8: angle ~160° -->
+  <polygon fill="yellow" stroke="none"
+    points="20,334 113,268 133,324"/>
+</svg>
