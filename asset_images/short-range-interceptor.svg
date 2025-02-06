@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300">
+  <!-- Cylinder body -->
+  <rect x="85" y="70" width="30" height="200" fill="white"/>
+  
+  <!-- Top triangle -->
+  <path d="M85 70 L100 20 L115 70 Z" fill="white"/>
+  
+  <!-- Red isosceles triangle -->
+  <path d="M89 100 L111 100 L100 124 Z" fill="red"/>
+  
+  <!-- Middle left fin -->
+  <path d="M85 170 L85 140 L55 170 Z" fill="white"/>
+  
+  <!-- Middle right fin -->
+  <path d="M115 170 L115 140 L145 170 Z" fill="white"/>
+  
+  <!-- Bottom left fin -->
+  <path d="M85 260 L85 230 L55 260 Z" fill="white"/>
+  
+  <!-- Bottom right fin -->
+  <path d="M115 260 L115 230 L145 260 Z" fill="white"/>
+
+  <!-- Flame triangles -->
+  <path d="M90 270 L100 290 L110 270 Z" fill="#FFA500"/>
+  <path d="M85 270 L95 285 L105 270 Z" fill="#FFA500"/>
+  <path d="M95 270 L105 285 L115 270 Z" fill="#FFA500"/>
+</svg>

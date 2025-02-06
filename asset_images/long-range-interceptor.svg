@@ -1,0 +1,23 @@
+<svg viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cylinderGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e0e0e0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:white;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e0e0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Main cylinder body -->
+  <rect x="70" y="80" width="60" height="240" fill="url(#cylinderGradient)" stroke="gray" stroke-width="2"/>
+
+  <!-- Triangle top -->
+  <path d="M 70,80 L 100,40 L 130,80 Z" fill="url(#cylinderGradient)" stroke="gray" stroke-width="2"/>
+
+  <!-- Red isosceles triangle -->
+  <path d="M 80,160 L 100,190 L 120,160 Z" fill="blue" stroke="none"/>
+
+  <!-- Static flame triangles -->
+  <path d="M 75,320 L 85,350 L 95,320 Z" fill="orange" stroke="none"/>
+  <path d="M 90,320 L 100,360 L 110,320 Z" fill="darkorange" stroke="none"/>
+  <path d="M 105,320 L 115,350 L 125,320 Z" fill="orange" stroke="none"/>
+</svg>

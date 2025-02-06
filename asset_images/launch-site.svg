@@ -1,0 +1,21 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Runway -->
+  <polygon points="50,350 350,50 375,75 75,375" fill="gray" stroke="black" stroke-width="2"/>
+  
+  <!-- Centerline -->
+  <line x1="62" y1="362" x2="362" y2="62" stroke="white" stroke-width="4" stroke-dasharray="20,10"/>
+
+  <!-- Control tower base -->
+  <rect x="280" y="180" width="40" height="100" fill="gray" stroke="black" stroke-width="2"/>
+  
+  <!-- Control tower top -->
+  <rect x="270" y="160" width="60" height="30" fill="darkgray" stroke="black" stroke-width="2"/>
+  
+  <!-- Centered Windows on the control tower top -->
+  <rect x="278" y="165" width="12" height="20" fill="lightblue" stroke="black" stroke-width="1"/>
+  <rect x="295" y="165" width="12" height="20" fill="lightblue" stroke="black" stroke-width="1"/>
+  <rect x="312" y="165" width="12" height="20" fill="lightblue" stroke="black" stroke-width="1"/>
+  
+  <!-- Red flag -->
+  <polygon points="300,160 320,150 300,140" fill="blue" stroke="black" stroke-width="1"/>
+</svg>

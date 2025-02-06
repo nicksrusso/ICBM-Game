@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <!-- Main fuselage -->
+  <path d="M 50,400 
+           L 150,380 
+           L 600,380 
+           L 700,400 
+           L 600,420 
+           L 150,420 
+           Z" 
+        fill="black"/>
+  
+  <!-- Delta wings -->
+  <path d="M 275,380
+           L 600,250
+           L 600,380
+           Z" 
+        fill="black"/>
+  <path d="M 275,420
+           L 600,550
+           L 600,420
+           Z" 
+        fill="black"/>
+           
+  <!-- Engine nacelles -->
+  <rect x="375" y="300" width="250" height="30" fill="black"/>
+  <rect x="375" y="470" width="250" height="30" fill="black"/>
+  
+  <!-- Nacelle nose cones -->
+  <path d="M 375,305
+           L 345,315
+           L 375,325
+           Z" 
+        fill="black"/>
+  <path d="M 375,475
+           L 345,485
+           L 375,495
+           Z" 
+        fill="black"/>
+        
+  <!-- Engine flames -->
+  <path d="M 625,305
+           L 675,315
+           L 625,325
+           Z" 
+        fill="#FF4500"/>
+  <path d="M 625,475
+           L 675,485
+           L 625,495
+           Z" 
+        fill="#FF4500"/>
+
+  <!-- Center pennant -->
+  <path d="M 375,380
+           L 425,400
+           L 375,420
+           Z" 
+        fill="blue"/>
+</svg>

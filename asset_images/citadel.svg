@@ -1,0 +1,52 @@
+<svg width="300" height="250" viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">
+  <!-- Castle Base -->
+  <rect x="50" y="150" width="200" height="100" fill="#A0A0A0" />
+
+  <!-- Left Tower -->
+  <rect x="0" y="50" width="50" height="200" fill="#808080" />
+  <!-- Left Tower Battlement Top -->
+  <rect x="0" y="50" width="10" height="20" fill="#A0A0A0" />
+  <rect x="10" y="50" width="10" height="20" fill="#808080" />
+  <rect x="20" y="50" width="10" height="20" fill="#A0A0A0" />
+  <rect x="30" y="50" width="10" height="20" fill="#808080" />
+  <rect x="40" y="50" width="10" height="20" fill="#A0A0A0" />
+
+  <!-- Right Tower -->
+  <rect x="250" y="50" width="50" height="200" fill="#808080" />
+  <!-- Right Tower Battlement Top -->
+  <rect x="250" y="50" width="10" height="20" fill="#A0A0A0" />
+  <rect x="260" y="50" width="10" height="20" fill="#808080" />
+  <rect x="270" y="50" width="10" height="20" fill="#A0A0A0" />
+  <rect x="280" y="50" width="10" height="20" fill="#808080" />
+  <rect x="290" y="50" width="10" height="20" fill="#A0A0A0" />
+
+  <!-- Central Tower - Shorter -->
+  <rect x="125" y="50" width="50" height="100" fill="#707070" />
+  <!-- Central Tower Battlement Top -->
+  <rect x="125" y="50" width="10" height="20" fill="#A0A0A0" />
+  <rect x="135" y="50" width="10" height="20" fill="#707070" />
+  <rect x="145" y="50" width="10" height="20" fill="#A0A0A0" />
+  <rect x="155" y="50" width="10" height="20" fill="#707070" />
+  <rect x="165" y="50" width="10" height="20" fill="#A0A0A0" />
+
+  <!-- Main Building Battlement Top -->
+  <rect x="50" y="150" width="20" height="20" fill="#A0A0A0" />
+  <rect x="70" y="150" width="20" height="20" fill="#808080" />
+  <rect x="90" y="150" width="20" height="20" fill="#A0A0A0" />
+  <rect x="110" y="150" width="20" height="20" fill="#808080" />
+  <rect x="130" y="150" width="20" height="20" fill="#A0A0A0" />
+  <rect x="150" y="150" width="20" height="20" fill="#808080" />
+  <rect x="170" y="150" width="20" height="20" fill="#A0A0A0" />
+  <rect x="190" y="150" width="20" height="20" fill="#808080" />
+  <rect x="210" y="150" width="20" height="20" fill="#A0A0A0" />
+  <rect x="230" y="150" width="20" height="20" fill="#808080" />
+
+  <!-- Door -->
+  <rect x="120" y="200" width="60" height="50" fill="#503010" />
+
+  <!-- Central Tower Flag - Larger & Above Tower -->
+  <rect x="149" y="30" width="2" height="40" fill="#505050" /> <!-- Flagpole - Raised & Longer -->
+  <polygon points="151,70 151,30 231,50" fill="#0000FF" />  <!-- Red Flag - Adjusted Position -->
+
+
+</svg>

@@ -1,0 +1,16 @@
+<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cylinder with rounded base -->
+  <path d="M50 150 
+           L50 240
+           Q50 250, 60 250
+           L140 250
+           Q150 250, 150 240
+           L150 150
+           L50 150" fill="#808080"/>
+  
+  <!-- Grey Triangle -->
+  <path d="M50 150 L150 150 L100 0 Z" fill="#808080"/>
+  
+  <!-- Red Triangle -->
+  <path d="M75 200 L125 200 L100 150 Z" fill="blue"/>
+</svg>

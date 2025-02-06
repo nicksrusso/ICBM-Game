@@ -1,0 +1,16 @@
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0,50)">
+    <!-- Main Cylinder Body -->
+    <path d="M 50,30 L 350,30 L 350,70 L 50,70 Z" fill="grey" stroke="#000" stroke-width="1.5"/>
+    <!-- Left Dome -->
+    <path d="M 50,30 A 20,20 0 0 0 50,70" fill="grey" stroke="#000" stroke-width="1.5"/>
+    <!-- Rotated Smaller Triangle -->
+    <path d="M 125,50 l -15,-10 l 0,20 z" fill="blue" stroke="none"/>
+    <!-- First Pair of Trapezoids -->
+    <path d="M 180,30 l 40,0 l 0,-60 l -20,0 Z" fill="#808080" stroke="none"/>
+    <path d="M 180,70 l 40,0 l 0,60 l -20,0 Z" fill="#808080" stroke="none"/>
+    <!-- Second Pair of Trapezoids (larger, further back) -->
+    <path d="M 300,30 l 20,0 l 0,-30 l -10,0 Z" fill="#808080" stroke="none"/>
+    <path d="M 300,70 l 20,0 l 0,30 l -10,0 Z" fill="#808080" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="skyblue"/>
+
+  <!-- Ground -->
+  <rect x="0" y="150" width="400" height="50" fill="green"/>
+
+  <!-- Cruise Missile Body -->
+  <polygon points="20,80 60,30 100,80" fill="gray" stroke="black" stroke-width="2"/>
+  <rect x="100" y="70" width="50" height="20" fill="gray" stroke="black" stroke-width="2"/>
+
+  <!-- Wings -->
+  <polygon points="60,30 80,40 90,30" fill="gray" stroke="black" stroke-width="1"/>
+  <polygon points="60,30 50,40 40,30" fill="gray" stroke="black" stroke-width="1"/>
+
+  <!-- Tail -->
+  <line x1="20" y1="80" x2="10" y2="90" stroke="black" stroke-width="2"/>
+  <line x1="20" y1="80" x2="30" y2="90" stroke="black" stroke-width="2"/>
+
+  <!-- Exhaust Flame -->
+  <polygon points="45,70 60,80 55,90" fill="orange" stroke="red" stroke-width="1"/>
+</svg>
