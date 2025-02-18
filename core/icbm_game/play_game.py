@@ -13,10 +13,18 @@ class GamePhase(Enum):
 
 
 class ICBMGameDriver:
-    def __init__(self):
+    def __init__(self, player1: GamePlayer, player2: GamePlayer):
         self.game = pyspiel.load_game("icbm_game")
         self.state = self.game.new_initial_state()
-        self.current_phase = GamePhase.DEPLOYMENT
+        self.players = {0: player1, 1: player2}
+
+    def _get_player_action(self, legal_actions: List[int]) -> List[int]:
+        current_player = self.players[self.state._current_player]
+
+        if self.state.game_phase == "DEPLOYMENT":
+            return [current_player.get_deployment_action(legal_actions, self.state)]
+        else:
+            return current_player.get_battle_actions(legal_actions, self.state)
 
     def run_deployment_phase(self) -> bool:
         """Run the deployment phase until complete"""
@@ -146,18 +154,6 @@ class ICBMGameDriver:
             self.state.switch_player()
 
         return True
-
-    def _get_player_action(self, legal_actions: List[int]) -> List[int]:
-        """Temporary placeholder for getting player input"""
-        # This would be replaced by actual UI/API integration
-
-        if self.state.game_phase == "DEPLOYMENT":
-            if not self.state._has_citadel[self.state._current_player]:
-                return legal_actions[0]  # Just take first legal action for now
-            else:
-                return legal_actions[random.randint(0, len(legal_actions) - 1)]
-        else:
-            return [legal_actions[0]]  # Just take first legal action for now
 
 
 def main():
